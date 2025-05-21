@@ -8,7 +8,7 @@ const letters = "アァイィウヴエカキクケコサシスセソタチツテ
 const fontSize = 20;
 const columns = Math.floor(canvas.width / fontSize);
 
-// Ogni colonna ha una singola lettera e la sua y
+// Ogni colonna ha una y e una lettera fissa
 const drops = Array(columns).fill().map(() => ({
   y: Math.random() * canvas.height / fontSize,
   char: letters[Math.floor(Math.random() * letters.length)]
@@ -24,21 +24,4 @@ function draw() {
     const x = i * fontSize;
     const drop = drops[i];
 
-    ctx.fillText(drop.char, x, drop.y * fontSize);
-
-    drop.y += 1;
-
-    // Quando esce dallo schermo, ricomincia da sopra con un nuovo carattere
-    if (drop.y * fontSize > canvas.height) {
-      drop.y = 0;
-      drop.char = letters[Math.floor(Math.random() * letters.length)];
-    }
-  }
-}
-
-setInterval(draw, 50);
-
-window.addEventListener("resize", () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
+    ctx.fillText(drop
