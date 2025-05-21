@@ -8,18 +8,19 @@ const letters = "アァイィウヴエカキクケコサシスセソタチツテ
 const fontSize = 16;
 const columns = Math.floor(canvas.width / fontSize);
 
-// Ogni colonna ha un array con lettere (scia) e la posizione y attuale
+// Ogni colonna ha un y e una lunghezza di scia
 const drops = Array(columns).fill().map(() => ({
   y: Math.floor(Math.random() * canvas.height / fontSize),
-  trailLength: Math.floor(Math.random() * 10 + 10) // lunghezza della scia
+  trailLength: Math.floor(Math.random() * 10 + 10)
 }));
 
 function draw() {
-  // Oscura solo leggermente: la scia svanisce, ma lo sfondo resta
-  ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  // Nessun fillRect: lasciamo lo sfondo trasparente
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   ctx.font = `${fontSize}px monospace`;
+  ctx.textAlign = "start";
+  ctx.textBaseline = "top";
 
   for (let i = 0; i < drops.length; i++) {
     const x = i * fontSize;
