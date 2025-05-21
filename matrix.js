@@ -8,14 +8,15 @@ const letters = "アァイィウヴエカキクケコサシスセソタチツテ
 const fontSize = 20;
 const columns = Math.floor(canvas.width / fontSize);
 
-// Ogni colonna ha una y e una lettera fissa
+// Ogni colonna avrà una "scia" di lettere e una y
 const drops = Array(columns).fill().map(() => ({
   y: Math.random() * canvas.height / fontSize,
-  char: letters[Math.floor(Math.random() * letters.length)]
+  trail: Array.from({ length: 10 }, () => letters[Math.floor(Math.random() * letters.length)])
 }));
 
 function draw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   ctx.font = `${fontSize}px monospace`;
   ctx.fillStyle = "#0F0";
@@ -24,12 +25,20 @@ function draw() {
     const x = i * fontSize;
     const drop = drops[i];
 
-    ctx.fillText(drop.char, x, drop.y * fontSize);
+    // Disegna ogni lettera della scia
+    for (let j = 0; j < drop.trail.length; j++) {
+      const y = (drop.y - j) * fontSize;
+      if (y > 0 && y < canvas.height) {
+        ctx.fillText(drop.trail[j], x, y);
+      }
+    }
+
     drop.y += 1;
 
-    if (drop.y * fontSize > canvas.height) {
+    // Quando la scia è uscita completamente, ricomincia con nuove lettere
+    if ((drop.y - drop.trail.length) * fontSize > canvas.height) {
       drop.y = 0;
-      drop.char = letters[Math.floor(Math.random() * letters.length)];
+      drop.trail = Array.from({ length: 10 }, () => letters[Math.floor(Math.random() * letters.length)]);
     }
   }
 }
