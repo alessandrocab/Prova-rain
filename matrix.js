@@ -15,7 +15,7 @@ const drops = Array(columns).fill().map(() => ({
 }));
 
 function draw() {
-  ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+  ctx.fillStyle = "rgba(0, 0, 0, 0.005)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   ctx.font = `${fontSize}px monospace`;
