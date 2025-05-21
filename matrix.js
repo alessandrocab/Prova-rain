@@ -24,4 +24,19 @@ function draw() {
     const x = i * fontSize;
     const drop = drops[i];
 
-    ctx.fillText(drop
+    ctx.fillText(drop.char, x, drop.y * fontSize);
+    drop.y += 1;
+
+    if (drop.y * fontSize > canvas.height) {
+      drop.y = 0;
+      drop.char = letters[Math.floor(Math.random() * letters.length)];
+    }
+  }
+}
+
+setInterval(draw, 50);
+
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
