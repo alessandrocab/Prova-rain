@@ -11,7 +11,7 @@ const drops = Array(columns).fill(1);
 
 function draw() {
   // sfondo trasparente per la scia
-  ctx.fillStyle = "rgba(0, 0, 0, 0.02)";
+  ctx.fillStyle = "rgba(0, 0, 0, 0.001)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   ctx.fillStyle = "#0F0";
