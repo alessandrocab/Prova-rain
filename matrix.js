@@ -5,45 +5,38 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 const letters = "アァイィウヴエカキクケコサシスセソタチツテトナニヌネノABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split('');
-const fontSize = 16;
+const fontSize = 20;
 const columns = Math.floor(canvas.width / fontSize);
 
-// Ogni colonna ha un y e una lunghezza di scia
+// Ogni colonna ha una singola lettera e la sua y
 const drops = Array(columns).fill().map(() => ({
-  y: Math.floor(Math.random() * canvas.height / fontSize),
-  trailLength: Math.floor(Math.random() * 10 + 10)
+  y: Math.random() * canvas.height / fontSize,
+  char: letters[Math.floor(Math.random() * letters.length)]
 }));
 
 function draw() {
-  // Nessun fillRect: lasciamo lo sfondo trasparente
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   ctx.font = `${fontSize}px monospace`;
-  ctx.textAlign = "start";
-  ctx.textBaseline = "top";
+  ctx.fillStyle = "#0F0";
 
   for (let i = 0; i < drops.length; i++) {
     const x = i * fontSize;
     const drop = drops[i];
 
-    for (let j = 0; j < drop.trailLength; j++) {
-      const char = letters[Math.floor(Math.random() * letters.length)];
-      const y = (drop.y - j) * fontSize;
-      const opacity = 1 - j / drop.trailLength;
-      ctx.fillStyle = `rgba(0, 255, 0, ${opacity.toFixed(2)})`;
-      ctx.fillText(char, x, y);
-    }
+    ctx.fillText(drop.char, x, drop.y * fontSize);
 
     drop.y += 1;
 
-    if (drop.y * fontSize > canvas.height && Math.random() > 0.975) {
+    // Quando esce dallo schermo, ricomincia da sopra con un nuovo carattere
+    if (drop.y * fontSize > canvas.height) {
       drop.y = 0;
-      drop.trailLength = Math.floor(Math.random() * 10 + 10);
+      drop.char = letters[Math.floor(Math.random() * letters.length)];
     }
   }
 }
 
-setInterval(draw, 140);
+setInterval(draw, 50);
 
 window.addEventListener("resize", () => {
   canvas.width = window.innerWidth;
